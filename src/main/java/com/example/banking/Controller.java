@@ -21,6 +21,12 @@ public class Controller {
 			return clientRepository.save(client);
 		}
 
+		if(action.equals("cancelCard")){
+			Client client = findClient(cardNumber);
+			client.setActivated(false);
+			return clientRepository.save(client);
+		}
+
 		throw new RuntimeException();
 	}
 
