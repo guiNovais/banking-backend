@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends MongoRepository<Client, String> {
 
-	public Client findByCardCode(String cardCode);
+	public Client findByCardNumber(String cardNumber);
 }
