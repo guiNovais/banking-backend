@@ -15,37 +15,35 @@ public class Controller {
 	ClientRepository clientRepository;
 
 	@PostMapping("/card")
-	public void operation(@RequestBody OperationDTO body) {
+	public Client operation(@RequestBody OperationDTO body) {
 		log.info(body.toString());
 
 		switch (body.getAction()) {
 		case ACTIVATE:
-			activateCard(body.getCardNumber(), body.getActivationCode());
-			break;
+			return activateCard(body.getCardNumber(), body.getActivationCode());
 		case CANCEL:
-			cancelCard(body.getCardNumber());
-			break;
+			return cancelCard(body.getCardNumber());
 		default:
 			throw new RuntimeException();
 		}
 
 	}
 
-	private void cancelCard(String cardNumber) {
+	private Client cancelCard(String cardNumber) {
 		Client client = findClient(cardNumber);
 		client.setActivated(false);
-		clientRepository.save(client);
+		return clientRepository.save(client);
 
 	}
 
-	private void activateCard(String cardNumber, String activationCode) {
+	private Client activateCard(String cardNumber, String activationCode) {
 		log.info("activateCard(String, String) invoked");
 		log.info(cardNumber);
 		log.info(activationCode);
 		Client client = findClient(cardNumber);
 		validateActivationCode(client, activationCode);
 		client.setActivated(true);
-		clientRepository.save(client);
+		return clientRepository.save(client);
 	}
 
 	private void validateActivationCode(Client client, String activationCode) {
